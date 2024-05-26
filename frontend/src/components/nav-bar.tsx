@@ -12,7 +12,7 @@ export function NavBar() {
     <div className="hidden flex-col md:flex z-10 w-full ">
       <div className="border-b">
         <div className="flex h-20 items-center px-8">
-          <Link className="flex items-center" href="#">
+          <Link className="flex items-center" href="/">
             <Image
               alt="Logo"
               className="mr-2"
