@@ -14,6 +14,13 @@ const useMerchants = () => {
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
+    const cachedMerchants = localStorage.getItem("merchants");
+
+    if (cachedMerchants) {
+      setMerchants(JSON.parse(cachedMerchants));
+      return;
+    }
+
     setIsLoading(true);
 
     // Fetch data from the API endpoint
@@ -37,10 +44,7 @@ const useMerchants = () => {
         // Ensure uniqueness by merchantId
         const uniqueMerchants = Array.from(
           new Map(
-            merchantsData.map((merchant: any) => [
-              merchant.merchantId,
-              merchant,
-            ])
+            merchantsData.map((merchant: any) => [merchant.merchantId, merchant])
           ).values()
         );
 
@@ -84,8 +88,9 @@ const useMerchants = () => {
         );
       })
       .then((merchantsWithDetails) => {
-        // Store the data in state
+        // Store the data in state and cache
         setMerchants(merchantsWithDetails);
+        localStorage.setItem("merchants", JSON.stringify(merchantsWithDetails));
         setIsLoading(false);
       })
       .catch((error) => {
