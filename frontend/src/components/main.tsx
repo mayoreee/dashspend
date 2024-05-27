@@ -7,13 +7,12 @@ import { Search } from "@/components/search";
 import Link from "next/link";
 import Image from "next/image";
 import { Merchant } from "./merchant";
-import { merchants } from "@/lib/data";
 
-export default function Main() {
+export default function Main(props: any) {
   return (
     <div className="hidden flex-col md:flex z-10 w-full ">
       <NavBar />
-      <main className="px-8">
+      <main className="px-8 mt-24">
         <h1 className="text-4xl font-bold mb-4 mt-6">
           Shop at thousands of locations with Dash
         </h1>
@@ -24,15 +23,15 @@ export default function Main() {
 
         <ScrollArea>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-8 gap-8 flex justify-center">
-            {merchants.map((merchant) => (
+            {props.merchants.map((merchant: any) => (
               <Merchant
-                key={merchant.id}
-                id={merchant.id}
+                key={merchant.merchantId}
+                id={merchant.merchantId}
                 name={merchant.name}
-                brandLogo={merchant.brandLogo}
-                discount={merchant.discount}
-                minGiftCardValueUSD={merchant.minGiftCardValueUSD}
-                maxGiftCardValueUSD={merchant.maxGiftCardValueUSD}
+                brandLogo={merchant?.brandLogo ?? "/merchant.png"}
+                discount={merchant.info?.savingsPercentage ?? 0}
+                minGiftCardValueUSD={merchant.info?.minimumCardPurchase ?? 0}
+                maxGiftCardValueUSD={merchant.info?.maximumCardPurchase ?? 0}
                 className="w-[286px]"
                 width={286}
                 height={188}
