@@ -3,9 +3,10 @@ import { NavBar } from "@/components/nav-bar";
 
 export default function Map() {
   return (
-    <main className="flex flex-col">
+    <div>
       <NavBar />
+      <main className="flex flex-col"></main>
       <Footer />
-    </main>
+    </div>
   );
 }

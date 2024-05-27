@@ -21,7 +21,7 @@ export function NavBar() {
               src="/logo.svg"
             />
           </Link>
-          <div className="mx-6">
+          <div className="mx-8">
             <Search />
           </div>
           <div className="ml-auto flex items-center space-x-4">

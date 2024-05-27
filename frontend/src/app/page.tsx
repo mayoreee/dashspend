@@ -6,9 +6,11 @@ config.autoAddCss = false;
 
 export default function Home() {
   return (
-    <main className="flex flex-col">
-      <Main />
+    <>
+      <main className="flex flex-col">
+        <Main />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }
