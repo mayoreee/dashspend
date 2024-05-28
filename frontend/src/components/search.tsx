@@ -23,7 +23,7 @@ export function Search(props: any) {
       </div>
       <div>
         <Input
-          className="pl-10 pr-4 rounded-md border border-gray-300 py-2 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-white md:w-[100px] lg:w-[525px]"
+          className="pl-10 pr-4 rounded-md border border-gray-300 py-2 focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-white md:w-[300px] lg:w-[525px]"
           placeholder="Search for your favourite brands"
           type="search"
           onChange={(e) => {
