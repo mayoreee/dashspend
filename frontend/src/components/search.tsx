@@ -1,10 +1,20 @@
 import { Input } from "@/components/ui/input";
+import { searchMerchants } from "@/lib/utils";
 import Image from "next/image";
-import { merchants } from "@/lib/data";
-import { useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export function Search() {
+export function Search(props: any) {
   const [value, setValue] = useState<string>("");
+  const [suggestedMerchants, setSuggestedMerchants] = useState<string[]>([]);
+
+  useEffect(() => {
+    const _suggestedMerchants = searchMerchants(
+      !!props.merchants ? props.merchants : [],
+      value
+    );
+    setSuggestedMerchants(_suggestedMerchants);
+  }, [value, props.merchants]);
 
   return (
     <div className="relative w-full max-w-md">
@@ -21,14 +31,12 @@ export function Search() {
           }}
         />
       </div>
-      {value.length > 1 && (
+      {value.length > 1 && suggestedMerchants.length > 0 && (
         <div className="absolute left-0 z-10 mt-2 w-full rounded-md bg-white shadow-lg dark:bg-gray-800 md:w-[100px] lg:w-[525px]">
           <ul className="py-1">
-            {merchants
-              .slice(0, 3)
-              .map((merchant) =>
-                SuggestionItem(merchant.name, merchant.brandLogo)
-              )}
+            {suggestedMerchants.map((merchant: any) =>
+              SuggestionItem(merchant)
+            )}
           </ul>
         </div>
       )}
@@ -56,15 +64,23 @@ function SearchIcon(props: any) {
   );
 }
 
-function SuggestionItem(name: string, brandLogo: string) {
+function SuggestionItem(merchant: any) {
   return (
-    <ul className="flex space-x-4 px-4 py-2 ">
-      <div className="flex-shrink-0">
-        <Image src={brandLogo} alt={`${name} logo`} width={64} height={40} />
-      </div>
-      <div className="ml-4">
-        <p className="font-semibold text-lg">{name}</p>
-      </div>
-    </ul>
+    <Link href={`/merchant/${merchant.merchantId}`}>
+      <ul className="flex items-center space-x-4 px-4 py-2">
+        <div className="flex-shrink-0">
+          <Image
+            src={merchant.brandLogo ?? "/merchant.png"}
+            alt={`${merchant.name} logo`}
+            width={64}
+            height={40}
+            className="rounded-md"
+          />
+        </div>
+        <div className="ml-4">
+          <p className="text-lg">{merchant.name}</p>
+        </div>
+      </ul>
+    </Link>
   );
 }

@@ -31,7 +31,7 @@ export function Merchant({
     <Link href={`/merchant/${id}`}>
       <div className={cn("space-y-3 relative", className)} {...props}>
         {discount > 0 && (
-          <div className="absolute top-2 left-2 bg-black opacity-30 text-white text-[12px] py-0 px-1 rounded">
+          <div className="absolute top-2 left-2 bg-black opacity-30 text-white text-[10px] py-0 px-1 rounded">
             Save {discount}%
           </div>
         )}

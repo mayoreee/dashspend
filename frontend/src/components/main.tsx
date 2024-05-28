@@ -11,7 +11,7 @@ import { Merchant } from "./merchant";
 export default function Main(props: any) {
   return (
     <div className="hidden flex-col md:flex z-10 w-full ">
-      <NavBar />
+      <NavBar merchants={props.merchants} />
       <main className="px-8 mt-24">
         <h1 className="text-4xl font-bold mb-4 mt-6">
           Shop at thousands of locations with Dash
@@ -32,7 +32,7 @@ export default function Main(props: any) {
                 discount={merchant.info?.savingsPercentage ?? 0}
                 minGiftCardValueUSD={merchant.info?.minimumCardPurchase ?? 0}
                 maxGiftCardValueUSD={merchant.info?.maximumCardPurchase ?? 0}
-                className="w-[286px]"
+                className="w-[286px] h-[188px]"
                 width={286}
                 height={188}
               />

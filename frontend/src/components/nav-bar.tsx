@@ -6,7 +6,7 @@ import { Search } from "@/components/search";
 import Link from "next/link";
 import Image from "next/image";
 
-export function NavBar() {
+export function NavBar(props: any) {
   return (
     <div className="hidden flex-col md:flex z-10 w-full fixed top-0 bg-white">
       <div className="border-b">
@@ -21,7 +21,7 @@ export function NavBar() {
             />
           </Link>
           <div className="mx-8">
-            <Search />
+            <Search merchants={props?.merchants}/>
           </div>
           <div className="ml-auto flex items-center space-x-4">
             <MainNav className="mx-0" />
