@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 const API_URL = process.env.NEXT_PUBLIC_CTX_API_URL as string;
 const API_KEY = process.env.NEXT_PUBLIC_CTX_API_KEY as string;
 const API_SECRET = process.env.NEXT_PUBLIC_CTX_API_SECRET as string;
-const API_ACCESS_TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6Inl4bG9menVtUGxPQ0ZNSG00NTlZaGtWZHFHV2x6RkFmIiwidHlwIjoiYXQrand0In0.eyJhdWQiOlsiRGFzaFdhbGxldEFwcFJlc291cmNlIiwiaHR0cHM6Ly9hdXRoLmN0eC5jb20vcmVzb3VyY2VzIl0sImNsaWVudF9pZCI6ImJkMzBiOTNkLWMyYmYtNGM4OC05MjNjLWZiODJmMGZkZjBiMyIsImV4cCI6MTcxNjk0ODY3OCwiaWF0IjoxNzE2OTE5ODc4LCJpc3MiOiJodHRwczovL2F1dGguY3R4LmNvbSIsImp0aSI6IjBTSE9WVUpORFI4QUg4REhSMlc4TThGVjJCUjNKUTBQIiwibmJmIjoxNzE2OTE5ODc4LCJzY29wZSI6WyJkYXNoX3dhbGxldCJdfQ.ga1MY4UkjecaBc_G17ydb55r3KOYx57mqyFzzqEaILoD_rVz5RHMb20IlUgl8HJslWXyMFh5BVOjPquARuVmTRkvRpSiWJE1bRO6hX1KPqie1juwqmU-DfRlYmgpTtWaOxjoGEYfP9cAADsU2Dlv6YEg6GXC7gERCqBQEbhM1AzCmjPFJsuNMqSMu4PhZRoFC8pj61EoDEJ4KZ_NmjgJKjgrlXS3IuGHDGBmMaD677EkVHcLhYKrRxNyh7ZjzUGfA2H1ifGM9bhNLIfMlDyg-_KNuiJB0MzqlRnmhcl8GuTouDZ5TiblxplxDR7XgWqobmT3liprwnHDB3h-xu1TzQ"
+const API_ACCESS_TOKEN =
+  "eyJhbGciOiJSUzI1NiIsImtpZCI6Inl4bG9menVtUGxPQ0ZNSG00NTlZaGtWZHFHV2x6RkFmIiwidHlwIjoiYXQrand0In0.eyJhdWQiOlsiRGFzaFdhbGxldEFwcFJlc291cmNlIiwiaHR0cHM6Ly9hdXRoLmN0eC5jb20vcmVzb3VyY2VzIl0sImNsaWVudF9pZCI6ImJkMzBiOTNkLWMyYmYtNGM4OC05MjNjLWZiODJmMGZkZjBiMyIsImV4cCI6MTcxNzEyMjA2MiwiaWF0IjoxNzE3MDkzMjYyLCJpc3MiOiJodHRwczovL2F1dGguY3R4LmNvbSIsImp0aSI6IjRaOUQ1SDZQSEdYVFdaMDBDSTY1REhIVjlYQ1pFVkRKIiwibmJmIjoxNzE3MDkzMjYyLCJzY29wZSI6WyJkYXNoX3dhbGxldCJdfQ.hPYv40POdXg-9rYCMEaFx99ro0oaGYjVMVeJCN0F3-dLLO2CCFMcKcatLZWV8Sl2gcjr3yihfQKbnc7lTT0FROSOqYlRhzcGqAkzPz0RMS9H6NyFxjAKuoQZT2PKqcUxhJ9flgeEn_gNwbqma5yhKPzbGB_a8mGvXfgndCd7IPLEBTlkr_fpzdJddpNCCaVMlypcudICImTFU8HZdgimvwZCR5adqr_tSjHWWOBT-gQfB91sy49AqnbZlZFYIOQod-Q2dZVeWPcoKeXn19-LIWRnMpo2UfitqRWJdk3JKy8orWfNS3FckI3NkGpdIcys7Y_bWwaFSODCNxH1_k5fUA";
 
-const useMerchants = () => {
+const useMerchants: any = () => {
   // State to store the API data
   const [merchants, setMerchants] = useState<any[]>([]);
-  // State to track loading status
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   // State to track error status
   const [error, setError] = useState<any>(null);
 
@@ -20,8 +20,6 @@ const useMerchants = () => {
       setMerchants(JSON.parse(cachedMerchants));
       return;
     }
-
-    setIsLoading(true);
 
     // Fetch data from the API endpoint
     fetch(`${API_URL}/merchants`, {
@@ -44,7 +42,10 @@ const useMerchants = () => {
         // Ensure uniqueness by merchantId
         const uniqueMerchants = Array.from(
           new Map(
-            merchantsData.map((merchant: any) => [merchant.merchantId, merchant])
+            merchantsData.map((merchant: any) => [
+              merchant.merchantId,
+              merchant,
+            ])
           ).values()
         );
 
@@ -91,23 +92,16 @@ const useMerchants = () => {
         // Store the data in state and cache
         setMerchants(merchantsWithDetails);
         localStorage.setItem("merchants", JSON.stringify(merchantsWithDetails));
-        setIsLoading(false);
       })
       .catch((error) => {
         // Handle errors
         setError(error);
-        setIsLoading(false);
         console.error("Error fetching data:", error);
       });
-
-    // Cleanup function (optional)
-    return () => {
-      // Cleanup code, if any
-    };
   }, []);
 
   // Return the data, loading status, and error
-  return { merchants, isLoading, error };
+  return { merchants, error };
 };
 
 export default useMerchants;
