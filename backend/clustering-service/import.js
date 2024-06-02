@@ -1,44 +1,69 @@
-const Pool = require('pg').Pool
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'postgres',
-    password: 'petaku',
-    port: 5432,
-})
-
+const { Pool } = require('pg');
 const fs = require('fs');
 
-const bigFile = fs.readFileSync('./1_million_location.txt', 'utf8')
+const pool = new Pool({
+    user: 'postgres',
+    host: '127.0.0.1',
+    database: 'devdb',
+    password: 'password',
+    port: 5432,
+});
 
-const rows = bigFile.split('\n')
-
-// clean up
-pool.query(`DELETE FROM public.marker_cluster;`, (error, results) => {
+// Clean up the table
+pool.query(`DELETE FROM marker_cluster;`, (error, results) => {
     if (error) {
-        throw error
+        throw error;
     }
-})
+    console.log("Table cleaned up.");
+    
+    // Read and process the TXT file after the table is cleaned
+    readAndInsertTXT();
+});
 
-let total = 0
-rows.map(coordinate => {
-    const coor = coordinate.replace('\r', '').split(',')
-    pool.query(`INSERT INTO public.marker_cluster(location) VALUES (ST_GeomFromText('Point(${coor[1]} ${coor[0]})'));`, (error, results) => {
-        if (error) {
-            throw error
-        }
-        if (total % 1000 == 0) {
-            console.log(total)
-        }
+function readAndInsertTXT() {
+    // Read the TXT file
+    const fileContent = fs.readFileSync('./merchant_locations.txt', 'utf8');
+    const rows = fileContent.split('\n').map(line => line.trim()).filter(line => line.length > 0);
 
-        total++
-    })
+    const headers = rows[0].split(',');
+    const dataRows = rows.slice(1).map(row => row.split(','));
 
-})
+    insertRows(dataRows, headers);
+}
 
+function insertRows(rows, headers) {
+    let total = 0;
+    
+    rows.forEach((row, index) => {
+        const [merchantId, name, logo, latitude, longitude] = row;
 
+        const insertQuery = `
+            INSERT INTO marker_cluster(location, merchant_id, merchant_name, merchant_logo) 
+            VALUES (
+                ST_GeomFromText('Point(${parseFloat(longitude)} ${parseFloat(latitude)})'),
+                $1,
+                $2,
+                $3
+            );
+        `;
 
+        pool.query(insertQuery, [merchantId, name, logo], (error, results) => {
+            if (error) {
+                console.error(`Error inserting data at row ${index + 1}:`, error);
+                return;
+            }
 
+            if (total % 1000 === 0) {
+                console.log(`${total} rows inserted`);
+            }
 
+            total++;
+        });
+    });
 
-
+    // Listen for the 'drain' event to close the pool when all queries are done
+    pool.on('drain', () => {
+        pool.end();
+        console.log('All data has been inserted.');
+    });
+}

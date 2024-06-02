@@ -28,6 +28,7 @@ function startApi() {
         console.log(west, south, east, north, zoom)
 
         locationClusterUseCase.getClusteredPoint(west, south, east, north, zoom).then(result => {
+            console.log(result)
             res.json(result)
         }).catch(error => {
             res.json(error)

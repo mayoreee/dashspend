@@ -16,7 +16,8 @@ class LocationCluster {
                 String(north),
             )
         ])
-
+        console.log(locations)
+        
         // converting to .geojson features array
         let geojson = new Array<any>()
         locations.rows.map(point => {
@@ -27,7 +28,9 @@ class LocationCluster {
                     "coordinates": [point.x, point.y]
                 },
                 "properties": {
-                    "name": point.id
+                    "id": point.merchant_id,
+                    "name": point.merchant_name,
+                    "logo": point.merchant_logo
                 }
             })
         })
