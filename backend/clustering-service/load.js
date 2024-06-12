@@ -4,7 +4,7 @@ const fs = require('fs');
 const pool = new Pool({
     user: 'postgres',
     host: '127.0.0.1',
-    database: 'devdb',
+    database: 'proddb',
     password: 'password',
     port: 5432,
 });
@@ -22,7 +22,7 @@ pool.query(`DELETE FROM marker_cluster;`, (error, results) => {
 
 function readAndInsertTXT() {
     // Read the TXT file
-    const fileContent = fs.readFileSync('./merchant_locations.txt', 'utf8');
+    const fileContent = fs.readFileSync('./merchant.txt', 'utf8');
     const rows = fileContent.split('\n').map(line => line.trim()).filter(line => line.length > 0);
 
     const headers = rows[0].split(',');
@@ -35,19 +35,17 @@ function insertRows(rows, headers) {
     let total = 0;
     
     rows.forEach((row, index) => {
-        const [merchantId, name, logo, latitude, longitude] = row;
+        const [merchantId, latitude, longitude] = row;
 
         const insertQuery = `
-            INSERT INTO marker_cluster(location, merchant_id, merchant_name, merchant_logo) 
+            INSERT INTO marker_cluster(location, merchant_id) 
             VALUES (
                 ST_GeomFromText('Point(${parseFloat(longitude)} ${parseFloat(latitude)})'),
-                $1,
-                $2,
-                $3
+                $1
             );
         `;
 
-        pool.query(insertQuery, [merchantId, name, logo], (error, results) => {
+        pool.query(insertQuery, [merchantId], (error, results) => {
             if (error) {
                 console.error(`Error inserting data at row ${index + 1}:`, error);
                 return;

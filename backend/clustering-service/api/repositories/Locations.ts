@@ -19,9 +19,7 @@ class Locations {
                     id, 
                     ST_Y(location) AS y, 
                     ST_X(location) AS x,
-                    merchant_id, 
-                    merchant_name, 
-                    merchant_logo 
+                    merchant_id
                 FROM 
                     marker_cluster u 
                 WHERE 

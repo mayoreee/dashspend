@@ -28,9 +28,7 @@ class LocationCluster {
                     "coordinates": [point.x, point.y]
                 },
                 "properties": {
-                    "id": point.merchant_id,
-                    "name": point.merchant_name,
-                    "logo": point.merchant_logo
+                    "merchant_id": point.merchant_id,
                 }
             })
         })
