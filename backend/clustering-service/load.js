@@ -5,7 +5,7 @@ const pool = new Pool({
   user: "avnadmin",
   host: "merchants-ctxspend.f.aivencloud.com",
   database: "defaultdb",
-  password: "AVNS__vez8574NXwvnWf_W5A",
+  password: "",
   port: 28504,
   ssl: {
     rejectUnauthorized: true,
