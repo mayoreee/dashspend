@@ -49,7 +49,9 @@ export function Merchant({
         </div>
 
         <div className="space-y-1 text-sm">
-          <h3 className="font-medium leading-none">{name}</h3>
+          <h3 className="font-medium leading-none">
+            {name.length > 20 ? name.slice(0, 20 - 3) + "..." : name}
+          </h3>
           <p className="text-xs text-muted-foreground">{`$${minGiftCardValueUSD}-$${maxGiftCardValueUSD}`}</p>
         </div>
       </div>
