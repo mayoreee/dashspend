@@ -7,7 +7,7 @@ import styles from "./MerchantPage.module.css";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AmountInput from "@/components/ui/amountInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +27,8 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import UseGiftCard from "@/hooks/use-gift-card";
+import Toast from "@/components/Toast";
+import { redirect } from "next/navigation";
 
 export default function MerchantPage() {
   const { merchants } = useMerchants();
@@ -45,6 +47,7 @@ export default function MerchantPage() {
   const [token, setToken] = useState<string | null>(null);
 
   const [open, setOpen] = useState<boolean>(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
 
   const {
     isLoading,
@@ -96,12 +99,20 @@ export default function MerchantPage() {
 
       await createGiftCard(txData, accessToken as string);
 
-      if (error === null) {
-        setOpen(false);
-        setCheckoutStatus("default");
+      setOpen(false);
+      setCheckoutStatus("default");
+
+      if (paymentUrl) {
+        redirect(paymentUrl);
       }
     }
   };
+
+  useEffect(() => {
+    if (errorGiftCard !== null || error !== null) {
+      setShowErrorToast(true);
+    }
+  }, [error, errorGiftCard]);
 
   return (
     <div>
@@ -248,6 +259,10 @@ export default function MerchantPage() {
           </div>
         </main>
       </div>
+      <Toast
+        showErrorToast={showErrorToast}
+        setShowErrorToast={setShowErrorToast}
+      />
       <Footer />
     </div>
   );
