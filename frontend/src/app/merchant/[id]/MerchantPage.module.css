@@ -1,0 +1,130 @@
+.body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.back-link {
+  text-decoration: none;
+  color: #008ee6;
+  font-size: 1.2em;
+}
+
+.header h1 {
+  flex-grow: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 2em;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap; /* Ensure wrapping on smaller screens */
+}
+
+.merchantImage {
+  width: 100%; /* Default to 100% width */
+  max-width: 100%; /* Ensure image does not exceed its original size */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 20px;
+  border-radius: 5px;
+  object-fit: 'cover';
+
+  /* Set width to 40% on larger screens */
+  @media (min-width: 769px) {
+    width: 40%;
+  }
+}
+.merchantDetails {
+  flex: 1; /* Take the remaining space */
+  min-width: 300px; /* Minimum width for smaller screens */
+  padding-top: 8px;
+}
+
+.merchantDetails h2 {
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+}
+
+.rewardsBadge {
+  background-color: #008ee6;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 24px;
+  font-size: 0.5em;
+  margin-left: 10px;
+}
+
+.description {
+  font-size: 1em;
+  margin: 10px 0;
+}
+
+.availability {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+  color: #008ee6;
+}
+
+.purchaseSection {
+  margin: 20px 0;
+}
+
+.purchaseSection label {
+  font-size: 1em;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.purchaseSection input {
+  width: 100%;
+}
+
+.buyButton {
+  width: 100%;
+  padding: 10px;
+  background-color: #008ee6;
+  color: #fff;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buyButton:hover {
+  background-color: #008ee6;
+}
+
+.terms {
+  margin-top: 20px;
+}
+
+.terms h3 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.terms a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.terms a:hover {
+  text-decoration: underline;
+}

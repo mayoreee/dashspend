@@ -11,7 +11,7 @@ import Spinner from "./ui/spinner";
 
 export default function Main(props: any) {
   return (
-    <div className="hidden flex-col md:flex z-10 w-full ">
+    <div className="flex-col md:flex z-10 w-full ">
       <NavBar merchants={props.merchants} />
       <main className="px-8 mt-24">
         <h1 className="text-4xl font-bold mb-4 mt-6">
@@ -24,7 +24,7 @@ export default function Main(props: any) {
 
         <ScrollArea>
           {!props.isLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-8 gap-8 flex justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-8 gap-8 justify-center">
               {props.merchants.map((merchant: any) => (
                 <Merchant
                   key={merchant.merchantId}
