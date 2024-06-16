@@ -7,6 +7,7 @@ import { Search } from "@/components/search";
 import Link from "next/link";
 import Image from "next/image";
 import { Merchant } from "./merchant";
+import Spinner from "./ui/spinner";
 
 export default function Main(props: any) {
   return (
@@ -22,22 +23,26 @@ export default function Main(props: any) {
         </p>
 
         <ScrollArea>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-8 gap-8 flex justify-center">
-            {props.merchants.map((merchant: any) => (
-              <Merchant
-                key={merchant.merchantId}
-                id={merchant.merchantId}
-                name={merchant.name}
-                brandLogo={merchant?.brandLogo ?? "/merchant.png"}
-                discount={merchant.info?.savingsPercentage ?? 0}
-                minGiftCardValueUSD={merchant.info?.minimumCardPurchase ?? 0}
-                maxGiftCardValueUSD={merchant.info?.maximumCardPurchase ?? 0}
-                className="w-[286px] h-[188px]"
-                width={286}
-                height={188}
-              />
-            ))}
-          </div>
+          {!props.isLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-8 gap-8 flex justify-center">
+              {props.merchants.map((merchant: any) => (
+                <Merchant
+                  key={merchant.merchantId}
+                  id={merchant.merchantId}
+                  name={merchant.name}
+                  brandLogo={merchant?.brandLogo ?? "/merchant.png"}
+                  discount={merchant.info?.savingsPercentage ?? 0}
+                  minGiftCardValueUSD={merchant.info?.minimumCardPurchase ?? 0}
+                  maxGiftCardValueUSD={merchant.info?.maximumCardPurchase ?? 0}
+                  className="w-[286px] h-[188px]"
+                  width={286}
+                  height={188}
+                />
+              ))}
+            </div>
+          ) : (
+            <Spinner />
+          )}
           <ScrollBar orientation="vertical" />
         </ScrollArea>
       </main>

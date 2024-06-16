@@ -7,11 +7,11 @@ import useMerchants from "@/hooks/use-merchants";
 config.autoAddCss = false;
 
 export default function Home() {
-  const { merchants, error } = useMerchants();
+  const { merchants, isLoading, error } = useMerchants();
   return (
     <>
       <main className="flex flex-col">
-        <Main merchants={merchants} />
+        <Main merchants={merchants} isLoading={isLoading} />
       </main>
       <Footer />
     </>

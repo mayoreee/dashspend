@@ -4,11 +4,14 @@ const API_URL = process.env.NEXT_PUBLIC_CTX_API_URL as string;
 const API_KEY = process.env.NEXT_PUBLIC_CTX_API_KEY as string;
 const API_SECRET = process.env.NEXT_PUBLIC_CTX_API_SECRET as string;
 const API_ACCESS_TOKEN =
-  "eyJhbGciOiJSUzI1NiIsImtpZCI6Inl4bG9menVtUGxPQ0ZNSG00NTlZaGtWZHFHV2x6RkFmIiwidHlwIjoiYXQrand0In0.eyJhdWQiOlsiRGFzaFdhbGxldEFwcFJlc291cmNlIiwiaHR0cHM6Ly9hdXRoLmN0eC5jb20vcmVzb3VyY2VzIl0sImNsaWVudF9pZCI6ImJkMzBiOTNkLWMyYmYtNGM4OC05MjNjLWZiODJmMGZkZjBiMyIsImV4cCI6MTcxNzEyMjA2MiwiaWF0IjoxNzE3MDkzMjYyLCJpc3MiOiJodHRwczovL2F1dGguY3R4LmNvbSIsImp0aSI6IjRaOUQ1SDZQSEdYVFdaMDBDSTY1REhIVjlYQ1pFVkRKIiwibmJmIjoxNzE3MDkzMjYyLCJzY29wZSI6WyJkYXNoX3dhbGxldCJdfQ.hPYv40POdXg-9rYCMEaFx99ro0oaGYjVMVeJCN0F3-dLLO2CCFMcKcatLZWV8Sl2gcjr3yihfQKbnc7lTT0FROSOqYlRhzcGqAkzPz0RMS9H6NyFxjAKuoQZT2PKqcUxhJ9flgeEn_gNwbqma5yhKPzbGB_a8mGvXfgndCd7IPLEBTlkr_fpzdJddpNCCaVMlypcudICImTFU8HZdgimvwZCR5adqr_tSjHWWOBT-gQfB91sy49AqnbZlZFYIOQod-Q2dZVeWPcoKeXn19-LIWRnMpo2UfitqRWJdk3JKy8orWfNS3FckI3NkGpdIcys7Y_bWwaFSODCNxH1_k5fUA";
+  "eyJhbGciOiJSUzI1NiIsImtpZCI6Inl4bG9menVtUGxPQ0ZNSG00NTlZaGtWZHFHV2x6RkFmIiwidHlwIjoiYXQrand0In0.eyJhdWQiOlsiRGFzaFdhbGxldEFwcFJlc291cmNlIiwiaHR0cHM6Ly9hdXRoLmN0eC5jb20vcmVzb3VyY2VzIl0sImNsaWVudF9pZCI6ImJkMzBiOTNkLWMyYmYtNGM4OC05MjNjLWZiODJmMGZkZjBiMyIsImV4cCI6MTcxODU2MzUxOSwiaWF0IjoxNzE4NTM0NzE5LCJpc3MiOiJodHRwczovL2F1dGguY3R4LmNvbSIsImp0aSI6IlFQVTRQNzJPOFpIMVZaMkxNUFBYTTdCN0NOUlRKNkNXIiwibmJmIjoxNzE4NTM0NzE5LCJzY29wZSI6WyJkYXNoX3dhbGxldCJdfQ.FFvI2GNTbI6v-EiGo2vszWabh9ZiLpYAwR6zwq1DUetOcxXs9p7Y5HohmqpH_Bd39jTeja2cSlqqAx2clyDH-Y7ES_-9v1CRO_C0Vc8GU2jhjlcXG7XKrXisGpdGjpFB48ALUQDabvR_E2o5EKdjbFFzA1HI5KtUzfA5MnNziXamFOr_KFLmNChERxfa5eWfUBvBchwYSymq9Q39-EnX3uxEg8pzL7XthUzWU9T3rtmIHWbqeMq-_7zU1xzw9ziKyKniFtdhYWxdw1UiaHSG-zvx8_DMdaKYZ8Q_vCwLgnogoyjJlZLVMNukM9sRSwLs6-h0azeoWQEk1sydP-MwnA";
 
 const useMerchants: any = () => {
   // State to store the API data
   const [merchants, setMerchants] = useState<any[]>([]);
+
+  // State to track loading status
+  const [isLoading, setIsloading] = useState<boolean>(false);
 
   // State to track error status
   const [error, setError] = useState<any>(null);
@@ -20,6 +23,8 @@ const useMerchants: any = () => {
       setMerchants(JSON.parse(cachedMerchants));
       return;
     }
+
+    setIsloading(true);
 
     // Fetch data from the API endpoint
     fetch(`${API_URL}/merchants`, {
@@ -97,11 +102,13 @@ const useMerchants: any = () => {
         // Handle errors
         setError(error);
         console.error("Error fetching data:", error);
+      }).finally(() => {
+        setIsloading(false)
       });
   }, []);
 
   // Return the data, loading status, and error
-  return { merchants, error };
+  return { merchants, isLoading, error };
 };
 
 export default useMerchants;
