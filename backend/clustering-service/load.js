@@ -9,10 +9,7 @@ const pool = new Pool({
   port: 28504,
   ssl: {
     rejectUnauthorized: true,
-    ca: `-----BEGIN CERTIFICATE-----
-...................
------END CERTIFICATE-----
-`,
+    ca: ``,
   },
 });
 
