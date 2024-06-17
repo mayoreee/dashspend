@@ -259,10 +259,12 @@ export default function MerchantPage() {
           </div>
         </main>
       </div>
-      <Toast
-        showErrorToast={showErrorToast}
-        setShowErrorToast={setShowErrorToast}
-      />
+      {showErrorToast && (
+        <Toast
+          showErrorToast={showErrorToast}
+          setShowErrorToast={setShowErrorToast}
+        />
+      )}
       <Footer />
     </div>
   );

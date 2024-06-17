@@ -5,11 +5,13 @@ import { NavBar } from "@/components/nav-bar";
 import useMerchants from "@/hooks/use-merchants";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import Locations from "./Locations";
 
 const defaultLocation: [number, number] = [37.7749, -122.4194]; // San Francisco coordinates
 
 export default function Map() {
   const { merchants, error } = useMerchants();
+
   const [userLocation, setUserLocation] = useState<[number, number] | null>(
     null
   );
@@ -55,11 +57,12 @@ export default function Map() {
             <Marker position={userLocation}>
               <Popup>You are here.</Popup>
             </Marker>
+            <Locations/>
           </MapContainer>
         </div>
       )}
       <div className="relative z-10">
-        <NavBar merchants={merchants} />
+        {/* <NavBar merchants={merchants} /> */}
         <Footer />
       </div>
     </div>

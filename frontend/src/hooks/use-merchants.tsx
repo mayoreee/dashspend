@@ -4,7 +4,7 @@ const API_URL = process.env.NEXT_PUBLIC_CTX_API_URL as string;
 const API_KEY = process.env.NEXT_PUBLIC_CTX_API_KEY as string;
 const API_SECRET = process.env.NEXT_PUBLIC_CTX_API_SECRET as string;
 const API_ACCESS_TOKEN =
-  "eyJhbGciOiJSUzI1NiIsImtpZCI6Inl4bG9menVtUGxPQ0ZNSG00NTlZaGtWZHFHV2x6RkFmIiwidHlwIjoiYXQrand0In0.eyJhdWQiOlsiRGFzaFdhbGxldEFwcFJlc291cmNlIiwiaHR0cHM6Ly9hdXRoLmN0eC5jb20vcmVzb3VyY2VzIl0sImNsaWVudF9pZCI6ImJkMzBiOTNkLWMyYmYtNGM4OC05MjNjLWZiODJmMGZkZjBiMyIsImV4cCI6MTcxODU2MzUxOSwiaWF0IjoxNzE4NTM0NzE5LCJpc3MiOiJodHRwczovL2F1dGguY3R4LmNvbSIsImp0aSI6IlFQVTRQNzJPOFpIMVZaMkxNUFBYTTdCN0NOUlRKNkNXIiwibmJmIjoxNzE4NTM0NzE5LCJzY29wZSI6WyJkYXNoX3dhbGxldCJdfQ.FFvI2GNTbI6v-EiGo2vszWabh9ZiLpYAwR6zwq1DUetOcxXs9p7Y5HohmqpH_Bd39jTeja2cSlqqAx2clyDH-Y7ES_-9v1CRO_C0Vc8GU2jhjlcXG7XKrXisGpdGjpFB48ALUQDabvR_E2o5EKdjbFFzA1HI5KtUzfA5MnNziXamFOr_KFLmNChERxfa5eWfUBvBchwYSymq9Q39-EnX3uxEg8pzL7XthUzWU9T3rtmIHWbqeMq-_7zU1xzw9ziKyKniFtdhYWxdw1UiaHSG-zvx8_DMdaKYZ8Q_vCwLgnogoyjJlZLVMNukM9sRSwLs6-h0azeoWQEk1sydP-MwnA";
+  "eyJhbGciOiJSUzI1NiIsImtpZCI6Inl4bG9menVtUGxPQ0ZNSG00NTlZaGtWZHFHV2x6RkFmIiwidHlwIjoiYXQrand0In0.eyJhdWQiOlsiRGFzaFdhbGxldEFwcFJlc291cmNlIiwiaHR0cHM6Ly9hdXRoLmN0eC5jb20vcmVzb3VyY2VzIl0sImNsaWVudF9pZCI6ImJkMzBiOTNkLWMyYmYtNGM4OC05MjNjLWZiODJmMGZkZjBiMyIsImV4cCI6MTcxODYwMDMyOCwiaWF0IjoxNzE4NTcxNTI4LCJpc3MiOiJodHRwczovL2F1dGguY3R4LmNvbSIsImp0aSI6IjJHWUwxTjhEWEY4QUQ4UUtIWEpRQU83OEpOMTNHVjIzIiwibmJmIjoxNzE4NTcxNTI4LCJzY29wZSI6WyJkYXNoX3dhbGxldCJdfQ.krYnnsFFmNNX_rWi35MdyqHUF6Jh1pN0C9Xphbyi3_9vC4L1k66LNOS10ERujpdB9XJsakEjQBEvTTEb4WDmqFtaPSjOiOzjh6p-0ZITM70hsS2PApY0vojGM_6QYZaIr2nP3c-hsgGLkNTYauTh_cCHzVBdEeK1heOxXeN2eECG8emZbrXCTJXCQdvlIRWCgt__uUYQ0woKjsROfbtrXQU5AhjrmZo-M9izlKVltCovI79kT0T2Q7SbDMCnV8Ofui9kcTswMklylER4evO752A8ivKFxKyuMC9hir7isFB4kLrw-Xy4nNNuCtQuG1u8NsedlsoAm6QQzC0_RKrbYA";
 
 const useMerchants: any = () => {
   // State to store the API data
@@ -102,8 +102,9 @@ const useMerchants: any = () => {
         // Handle errors
         setError(error);
         console.error("Error fetching data:", error);
-      }).finally(() => {
-        setIsloading(false)
+      })
+      .finally(() => {
+        setIsloading(false);
       });
   }, []);
 

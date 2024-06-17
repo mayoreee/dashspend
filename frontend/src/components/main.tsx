@@ -7,7 +7,7 @@ import { Search } from "@/components/search";
 import Link from "next/link";
 import Image from "next/image";
 import { Merchant } from "./merchant";
-import Spinner from "./ui/spinner";
+import { Icons } from "./ui/icons";
 
 export default function Main(props: any) {
   return (
@@ -41,7 +41,9 @@ export default function Main(props: any) {
               ))}
             </div>
           ) : (
-            <Spinner />
+            <div className="flex items-center justify-center">
+            <Icons.spinner className="h-10 w-10 animate-spin text-primary" />
+          </div>
           )}
           <ScrollBar orientation="vertical" />
         </ScrollArea>
