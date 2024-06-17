@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Footer from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
 import useMerchants from "@/hooks/use-merchants";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer, ZoomControl } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Locations from "./Locations";
 
@@ -49,11 +49,13 @@ export default function Map() {
             zoom={13}
             scrollWheelZoom={false}
             style={{ height: "100%", width: "100%" }}
+            zoomControl={false}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
+            <ZoomControl position="bottomright"/>
             <Marker position={userLocation}>
               <Popup>You are here.</Popup>
             </Marker>
@@ -62,8 +64,8 @@ export default function Map() {
         </div>
       )}
       <div className="relative z-10">
-        {/* <NavBar merchants={merchants} /> */}
-        <Footer />
+        <NavBar merchants={merchants} />
+        {/* <Footer /> */}
       </div>
     </div>
   );
