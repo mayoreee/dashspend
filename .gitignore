@@ -132,3 +132,4 @@ dist
 
 *merchants.txt
 .DS_Store
+*build/
