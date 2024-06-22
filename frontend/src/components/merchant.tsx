@@ -1,8 +1,6 @@
 import Image from "next/image";
-import { PlusCircledIcon } from "@radix-ui/react-icons";
-
-import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface MerchantProps extends React.HTMLAttributes<HTMLDivElement> {
   id: string;
@@ -22,37 +20,42 @@ export function Merchant({
   discount,
   minGiftCardValueUSD,
   maxGiftCardValueUSD,
-  width,
-  height,
+  width = 286,
+  height = 188,
   className,
   ...props
 }: MerchantProps) {
   return (
     <Link href={`/merchant/${id}`}>
-      <div className={cn("space-y-3 relative", className)} {...props}>
+      <div
+        className={cn(
+          "relative rounded-md overflow-hidden",
+          "group shadow-md hover:shadow-lg transition-shadow duration-300",
+          className
+        )}
+        {...props}
+      >
         {discount > 0 && (
-          <div className="absolute top-2 left-2 bg-black opacity-30 text-white text-[10px] py-0 px-1 rounded">
+          <div className="absolute top-2 left-2 bg-black bg-opacity-50 text-white text-xs py-0.5 px-1 rounded">
             Save {discount}%
           </div>
         )}
-        <div className="overflow-hidden rounded-md">
+        <div className="aspect-w-3 aspect-h-2 overflow-hidden p-0">
           <Image
             src={brandLogo}
             alt={name}
             width={width}
             height={height}
-            className={cn(
-              "h-auto w-auto object-cover transition-all hover:scale-105",
-              "aspect-[3/2]"
-            )}
+            className="object-cover transition-transform group-hover:scale-105"
           />
         </div>
-
-        <div className="space-y-1 text-sm">
-          <h3 className="font-medium leading-none">
-            {name.length > 20 ? name.slice(0, 20 - 3) + "..." : name}
+        <div className="p-3 space-y-1">
+          <h3 className="font-medium text-sm leading-tight truncate">
+            {name}
           </h3>
-          <p className="text-xs text-muted-foreground">{`$${minGiftCardValueUSD}-$${maxGiftCardValueUSD}`}</p>
+          <p className="text-xs text-muted-foreground">
+            ${minGiftCardValueUSD}-${maxGiftCardValueUSD}
+          </p>
         </div>
       </div>
     </Link>

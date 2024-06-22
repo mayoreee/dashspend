@@ -1,15 +1,34 @@
-import { Button } from "@/components/ui/button";
-import { MainNav } from "@/components/main-nav";
 import { NavBar } from "@/components/nav-bar";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Search } from "@/components/search";
-
-import Link from "next/link";
-import Image from "next/image";
 import { Merchant } from "./merchant";
 import { Icons } from "./ui/icons";
+import { useEffect, useState } from "react";
 
 export default function Main(props: any) {
+  // State to track the number of columns dynamically
+  const [numCols, setNumCols] = useState<number>(2); // Default number of columns for small screens
+
+  useEffect(() => {
+    // Update number of columns based on screen width
+    function handleResize() {
+      const screenWidth = window.innerWidth;
+      if (screenWidth >= 1024) {
+        setNumCols(6); // 6 columns for large screens
+      } else if (screenWidth >= 640) {
+        setNumCols(4); // 4 columns for medium screens
+      } else {
+        setNumCols(2); // 2 column for small screens
+      }
+    }
+
+    // Initial call to set number of columns on load
+    handleResize();
+
+    // Event listener for window resize
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="flex-col md:flex z-10 w-full ">
       <NavBar merchants={props.merchants} />
@@ -24,7 +43,13 @@ export default function Main(props: any) {
 
         <ScrollArea>
           {!props.isLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-8 gap-8 justify-center">
+            <div
+            className={`grid ${numCols === 2
+              ? "grid-cols-2"
+              : numCols === 4
+              ? "grid-cols-4"
+              : "grid-cols-6"} gap-8 justify-center`}
+            >
               {props.merchants.map((merchant: any) => (
                 <Merchant
                   key={merchant.merchantId}
@@ -32,9 +57,13 @@ export default function Main(props: any) {
                   name={merchant.name}
                   brandLogo={merchant?.brandLogo ?? "/merchant.png"}
                   discount={merchant.info?.savingsPercentage ?? 0}
-                  minGiftCardValueUSD={merchant.info?.minimumCardPurchase ?? 0}
-                  maxGiftCardValueUSD={merchant.info?.maximumCardPurchase ?? 0}
-                  className="w-[286px] h-[188px]"
+                  minGiftCardValueUSD={
+                    merchant.info?.minimumCardPurchase ?? 0
+                  }
+                  maxGiftCardValueUSD={
+                    merchant.info?.maximumCardPurchase ?? 0
+                  }
+                  className="w-full h-auto" // Adjust width and height as needed
                   width={286}
                   height={188}
                 />
@@ -42,8 +71,8 @@ export default function Main(props: any) {
             </div>
           ) : (
             <div className="flex items-center justify-center">
-            <Icons.spinner className="h-10 w-10 animate-spin text-primary" />
-          </div>
+              <Icons.spinner className="h-10 w-10 animate-spin text-primary" />
+            </div>
           )}
           <ScrollBar orientation="vertical" />
         </ScrollArea>
