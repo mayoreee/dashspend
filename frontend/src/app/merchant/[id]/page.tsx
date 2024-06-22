@@ -62,7 +62,7 @@ export default function MerchantPage() {
   const {
     isLoadingGiftCard,
     errorGiftCard,
-    paymentUrl,
+    giftCardInfo,
     createGiftCard,
     clearErrorGiftCard,
   } = UseGiftCard();
@@ -101,16 +101,15 @@ export default function MerchantPage() {
 
       setOpen(false);
       setCheckoutStatus("default");
+      setOpen(false);
 
-      if (paymentUrl) {
-        redirect(paymentUrl);
-      }
     }
   };
 
   useEffect(() => {
     if (errorGiftCard !== null || error !== null) {
       setShowErrorToast(true);
+      setCheckoutStatus("default")
     }
   }, [error, errorGiftCard]);
 
@@ -195,7 +194,7 @@ export default function MerchantPage() {
                         {checkoutStatus === "valid_email" && (
                           <div className="flex justify-center">
                             <InputOTP
-                              maxLength={4}
+                              maxLength={6}
                               onChange={(value) => {
                                 setToken(value);
                               }}
@@ -204,7 +203,12 @@ export default function MerchantPage() {
                                 <InputOTPSlot index={0} />
                                 <InputOTPSlot index={1} />
                                 <InputOTPSlot index={2} />
+                                </InputOTPGroup>
+                                <InputOTPSeparator/>
+                                <InputOTPGroup>
                                 <InputOTPSlot index={3} />
+                                <InputOTPSlot index={4} />
+                                <InputOTPSlot index={5} />
                               </InputOTPGroup>
                             </InputOTP>
                           </div>
