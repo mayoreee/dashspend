@@ -156,7 +156,11 @@ export default function MerchantPage() {
                       <Button
                         className="mt-2"
                         disabled={
-                          (purchaseAmount as number) <= 0 ? true : false
+                          (purchaseAmount as number) <= 0 ||
+                          (purchaseAmount as number) <
+                            merchant.info.minimumCardPurchase ||
+                          (purchaseAmount as number) >
+                            merchant.info.maximumCardPurchase
                         }
                       >
                         Buy Now

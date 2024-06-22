@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 const API_URL = process.env.NEXT_PUBLIC_CTX_API_URL as string;
 const API_KEY = process.env.NEXT_PUBLIC_CTX_API_KEY as string;
 const API_SECRET = process.env.NEXT_PUBLIC_CTX_API_SECRET as string;
-const API_ACCESS_TOKEN =
-  "eyJhbGciOiJSUzI1NiIsImtpZCI6Inl4bG9menVtUGxPQ0ZNSG00NTlZaGtWZHFHV2x6RkFmIiwidHlwIjoiYXQrand0In0.eyJhdWQiOlsiRGFzaFdhbGxldEFwcFJlc291cmNlIiwiaHR0cHM6Ly9hdXRoLmN0eC5jb20vcmVzb3VyY2VzIl0sImNsaWVudF9pZCI6ImJkMzBiOTNkLWMyYmYtNGM4OC05MjNjLWZiODJmMGZkZjBiMyIsImV4cCI6MTcxODYwMDMyOCwiaWF0IjoxNzE4NTcxNTI4LCJpc3MiOiJodHRwczovL2F1dGguY3R4LmNvbSIsImp0aSI6IjJHWUwxTjhEWEY4QUQ4UUtIWEpRQU83OEpOMTNHVjIzIiwibmJmIjoxNzE4NTcxNTI4LCJzY29wZSI6WyJkYXNoX3dhbGxldCJdfQ.krYnnsFFmNNX_rWi35MdyqHUF6Jh1pN0C9Xphbyi3_9vC4L1k66LNOS10ERujpdB9XJsakEjQBEvTTEb4WDmqFtaPSjOiOzjh6p-0ZITM70hsS2PApY0vojGM_6QYZaIr2nP3c-hsgGLkNTYauTh_cCHzVBdEeK1heOxXeN2eECG8emZbrXCTJXCQdvlIRWCgt__uUYQ0woKjsROfbtrXQU5AhjrmZo-M9izlKVltCovI79kT0T2Q7SbDMCnV8Ofui9kcTswMklylER4evO752A8ivKFxKyuMC9hir7isFB4kLrw-Xy4nNNuCtQuG1u8NsedlsoAm6QQzC0_RKrbYA";
 
 const useMerchants: any = () => {
   // State to store the API data
@@ -31,7 +29,6 @@ const useMerchants: any = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${API_ACCESS_TOKEN}`,
         "X-Api-Key": API_KEY,
         "X-Api-Secret": API_SECRET,
       },
@@ -61,7 +58,6 @@ const useMerchants: any = () => {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${API_ACCESS_TOKEN}`,
                 "X-Api-Key": API_KEY,
                 "X-Api-Secret": API_SECRET,
               },
@@ -72,15 +68,16 @@ const useMerchants: any = () => {
                     `Failed to fetch details for merchant id: ${merchant.merchantId}`
                   );
                 }
+               
                 return detailsResponse.json();
               })
               .then((merchantDetail) => ({
                 ...merchant,
                 brandLogo: null,
                 info: {
-                  minimumCardPurchase: merchantDetail.minimumCardPurchase,
-                  maximumCardPurchase: merchantDetail.maximumCardPurchase,
-                  savingsPercentage: merchantDetail.savingsPercentage ?? 0,
+                  minimumCardPurchase: parseFloat(merchantDetail.denominations[0]),
+                  maximumCardPurchase: parseFloat(merchantDetail.denominations[1]),
+                  savingsPercentage: (parseInt(merchantDetail.savingsPercentage) / 100) ?? 0,
                 },
               }))
               .catch((error) => {
