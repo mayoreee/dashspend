@@ -7,7 +7,7 @@ const API_SECRET = process.env.NEXT_PUBLIC_CTX_API_SECRET as string;
 type UseGiftCard = {
   isLoadingGiftCard: boolean;
   errorGiftCard: string | null;
-  paymentUrl: string | null;
+  giftCardInfo: any;
   createGiftCard: (txData: any, accessToken: string) => Promise<void>;
   clearErrorGiftCard: () => void;
 };
@@ -15,7 +15,7 @@ type UseGiftCard = {
 const UseGiftCard = (): UseGiftCard => {
   const [isLoadingGiftCard, setIsLoading] = useState<boolean>(false);
   const [errorGiftCard, setError] = useState<string | null>(null);
-  const [paymentUrl, setPaymentUrl] = useState<string | null> (null);
+  const [giftCardInfo, setGiftCardInfo] = useState<any> (null);
 
   const createGiftCard = async (txData: any, accessToken: string) => {
     setIsLoading(true);
@@ -40,10 +40,7 @@ const UseGiftCard = (): UseGiftCard => {
       const data = await response.json();
       console.log('Gift card created successfully:', data);
 
-      if (data.paymentUrls) {
-        const url =  extractUrl(data.paymentUrls['DASH.DASH'])
-       setPaymentUrl(url)
-      }
+     setGiftCardInfo(giftCardInfo)
 
     } catch (error: any) {
       setError(error?.message || 'Failed to create gift card. Please check and try again.');
@@ -59,7 +56,7 @@ const UseGiftCard = (): UseGiftCard => {
   return {
     isLoadingGiftCard,
     errorGiftCard,
-    paymentUrl,
+    giftCardInfo,
     createGiftCard,
     clearErrorGiftCard,
   };
