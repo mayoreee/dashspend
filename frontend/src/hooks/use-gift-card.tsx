@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_CTX_API_URL as string;
 const API_KEY = process.env.NEXT_PUBLIC_CTX_API_KEY as string;
@@ -12,10 +12,10 @@ type UseGiftCard = {
   clearErrorGiftCard: () => void;
 };
 
-const UseGiftCard = (): UseGiftCard => {
+const useGiftCard = (): UseGiftCard => {
   const [isLoadingGiftCard, setIsLoading] = useState<boolean>(false);
   const [errorGiftCard, setError] = useState<string | null>(null);
-  const [giftCardInfo, setGiftCardInfo] = useState<any> (null);
+  const [giftCardInfo, setGiftCardInfo] = useState<any>(null);
 
   const createGiftCard = async (txData: any, accessToken: string) => {
     setIsLoading(true);
@@ -23,9 +23,9 @@ const UseGiftCard = (): UseGiftCard => {
 
     try {
       const response = await fetch(`${API_URL}/gift-cards`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
           "X-Api-Key": API_KEY,
           "X-Api-Secret": API_SECRET,
@@ -34,16 +34,20 @@ const UseGiftCard = (): UseGiftCard => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create gift card. Please check and try again.');
+        throw new Error(
+          "Failed to create gift card. Please check and try again."
+        );
       }
 
       const data = await response.json();
-      console.log('Gift card created successfully:', data);
+      console.log("Gift card created successfully:", data);
 
-     setGiftCardInfo(giftCardInfo)
-
+      setGiftCardInfo(data);
     } catch (error: any) {
-      setError(error?.message || 'Failed to create gift card. Please check and try again.');
+      setError(
+        error?.message ||
+          "Failed to create gift card. Please check and try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -62,10 +66,4 @@ const UseGiftCard = (): UseGiftCard => {
   };
 };
 
-export default UseGiftCard;
-
-
-const extractUrl = (input: string): string | null => {
-  const params = new URLSearchParams(input.split('?')[1]);
-  return params.get('r');
-};
+export default useGiftCard;

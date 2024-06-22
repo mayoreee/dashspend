@@ -2,7 +2,7 @@
 import Footer from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
 import useMerchants from "@/hooks/use-merchants";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import styles from "./MerchantPage.module.css";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -26,13 +26,14 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import UseGiftCard from "@/hooks/use-gift-card";
 import Toast from "@/components/Toast";
 import { redirect } from "next/navigation";
+import useGiftCard from "@/hooks/use-gift-card";
 
 export default function MerchantPage() {
   const { merchants } = useMerchants();
   const { id } = useParams();
+  const router = useRouter();
 
   const merchant = merchants.find(
     (merchant: any) => merchant.merchantId === id
@@ -65,7 +66,7 @@ export default function MerchantPage() {
     giftCardInfo,
     createGiftCard,
     clearErrorGiftCard,
-  } = UseGiftCard();
+  } = useGiftCard();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -98,20 +99,24 @@ export default function MerchantPage() {
       };
 
       await createGiftCard(txData, accessToken as string);
-
       setOpen(false);
       setCheckoutStatus("default");
-      setOpen(false);
-
     }
   };
 
   useEffect(() => {
     if (errorGiftCard !== null || error !== null) {
       setShowErrorToast(true);
-      setCheckoutStatus("default")
+      setCheckoutStatus("default");
     }
   }, [error, errorGiftCard]);
+
+  useEffect(() => {
+    if (giftCardInfo?.id) {
+      sessionStorage.setItem("giftCardInfo", JSON.stringify(giftCardInfo));
+      router.push(`/invoice/${giftCardInfo.id}`, {});
+    }
+  }, [giftCardInfo?.id, router]);
 
   return (
     <div>
@@ -203,9 +208,9 @@ export default function MerchantPage() {
                                 <InputOTPSlot index={0} />
                                 <InputOTPSlot index={1} />
                                 <InputOTPSlot index={2} />
-                                </InputOTPGroup>
-                                <InputOTPSeparator/>
-                                <InputOTPGroup>
+                              </InputOTPGroup>
+                              <InputOTPSeparator />
+                              <InputOTPGroup>
                                 <InputOTPSlot index={3} />
                                 <InputOTPSlot index={4} />
                                 <InputOTPSlot index={5} />
