@@ -76,7 +76,7 @@ export default function InvoicePage() {
           </div>
         </div>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
