@@ -52,7 +52,7 @@ export default function Main(props: any) {
                   : numCols === 4
                   ? "grid-cols-4"
                   : "grid-cols-6"
-              } gap-8 justify-center mb-2`}
+              } gap-8 justify-center mb-2 `}
             >
               {props.merchants.map((merchant: any) => (
                 <Merchant
