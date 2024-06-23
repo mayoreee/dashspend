@@ -8,6 +8,7 @@ config.autoAddCss = false;
 
 export default function Home() {
   const { merchants, isLoading, error } = useMerchants();
+
   return (
     <>
       <main className="flex flex-col">

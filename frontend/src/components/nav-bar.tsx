@@ -8,9 +8,9 @@ import Image from "next/image";
 
 export function NavBar(props: any) {
   return (
-    <div className="flex-col md:flex z-10 w-full fixed top-0 bg-white">
-      <div className="border-b border-gray-100">
-        <div className="flex h-20 items-center px-8">
+    <div className="flex flex-col md:flex-row z-10 w-full fixed top-0 bg-white">
+      <div className="border-b border-gray-100 w-full">
+        <div className="flex h-20 items-center px-4 md:px-8">
           <Link className="flex items-center" href="/">
             <Image
               alt="Logo"
@@ -20,7 +20,7 @@ export function NavBar(props: any) {
               src="/logo.svg"
             />
           </Link>
-          <div className="mx-8">
+          <div className="hidden md:block mx-4">
             <Search merchants={props?.merchants} />
           </div>
           <div className="ml-auto flex items-center space-x-4">

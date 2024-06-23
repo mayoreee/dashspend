@@ -3,6 +3,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Merchant } from "./merchant";
 import { Icons } from "./ui/icons";
 import { useEffect, useState } from "react";
+import { Search } from "./search";
 
 export default function Main(props: any) {
   // State to track the number of columns dynamically
@@ -35,6 +36,9 @@ export default function Main(props: any) {
     <div className="flex flex-col min-h-screen z-10 w-full">
       <NavBar merchants={props.merchants} />
       <main className="flex-1 px-8 mt-24">
+        <div className="md:hidden mx-0 md:mx-0 w-full">
+          <Search merchants={props.merchants} />
+        </div>
         <h1 className="text-4xl font-bold mb-4 mt-6">
           Shop at thousands of locations with Dash
         </h1>
