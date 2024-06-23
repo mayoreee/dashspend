@@ -50,7 +50,6 @@ export default function MerchantPage() {
   const [open, setOpen] = useState<boolean>(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
 
-
   const {
     isLoading,
     error,
@@ -104,8 +103,6 @@ export default function MerchantPage() {
     }
   };
 
-
-
   useEffect(() => {
     if (errorGiftCard !== null || error !== null) {
       setShowErrorToast(true);
@@ -134,11 +131,11 @@ export default function MerchantPage() {
               />
               <div className={`${styles.merchantDetails} mt-4`}>
                 <h2 className="text-2xl md:text-4xl">
-                  {merchant?.name} Gift Card{" "}
-                  <span className={styles.rewardsBadge}>
-                    {merchant?.info?.savingsPercentage}% Rewards
-                  </span>
+                  {merchant?.name} Gift Card
                 </h2>
+                <span className={`${styles.rewardsBadge}`}>
+                  {merchant?.info?.savingsPercentage}% Rewards
+                </span>
                 <p className="text-sm md:text-base mt-2">
                   {`Best Buy gift cards make it easy to enjoy all the latest technology.
                 Whether you're looking for smart home devices, drone, or 4K Ultra HD
