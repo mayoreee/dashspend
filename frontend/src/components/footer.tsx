@@ -4,7 +4,7 @@ import { faFacebook, faLinkedin, faYoutube, faInstagram } from '@fortawesome/fre
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-white py-4 border-t border-gray-300 z-10">
+    <footer className="fixed bottom-0 left-0 w-full bg-white py-4 border-t border-gray-100 z-0">
       <div className="flex justify-between items-center px-8">
         <p className="text-gray-700">Dash Spend</p>
         <div className="flex space-x-4">

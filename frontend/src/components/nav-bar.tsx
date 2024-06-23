@@ -8,8 +8,8 @@ import Image from "next/image";
 
 export function NavBar(props: any) {
   return (
-    <div className=" flex-col md:flex z-10 w-full fixed top-0 bg-white">
-      <div className="border-b">
+    <div className="flex-col md:flex z-10 w-full fixed top-0 bg-white">
+      <div className="border-b border-gray-100">
         <div className="flex h-20 items-center px-8">
           <Link className="flex items-center" href="/">
             <Image

@@ -278,7 +278,7 @@ export default function MerchantPage() {
           setShowErrorToast={setShowErrorToast}
         />
       )}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
