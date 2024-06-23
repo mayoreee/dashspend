@@ -1,4 +1,5 @@
 "use client";
+
 import Footer from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
 import useMerchants from "@/hooks/use-merchants";
@@ -27,7 +28,6 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import Toast from "@/components/Toast";
-import { redirect } from "next/navigation";
 import useGiftCard from "@/hooks/use-gift-card";
 
 export default function MerchantPage() {
@@ -50,11 +50,11 @@ export default function MerchantPage() {
   const [open, setOpen] = useState<boolean>(false);
   const [showErrorToast, setShowErrorToast] = useState(false);
 
+
   const {
     isLoading,
     error,
     accessToken,
-    refreshToken,
     verifyEmail,
     verifyToken,
     clearError,
@@ -104,6 +104,8 @@ export default function MerchantPage() {
     }
   };
 
+
+
   useEffect(() => {
     if (errorGiftCard !== null || error !== null) {
       setShowErrorToast(true);
@@ -122,22 +124,22 @@ export default function MerchantPage() {
     <div>
       <NavBar merchants={merchants} />
       <div className={styles.body}>
-        <main className="flex flex-col pt-24">
-          <div className={styles.container}>
+        <main className="flex flex-col pt-24 min-h-screen mb-2">
+          <div className={`${styles.container} px-4 md:px-0`}>
             <div className={styles.content}>
               <img
                 src="/merchant_banner.png"
                 alt="banner"
-                className={styles.merchantImage}
+                className={`${styles.merchantImage} w-full object-cover`}
               />
-              <div className={styles.merchantDetails}>
-                <h2>
+              <div className={`${styles.merchantDetails} mt-4`}>
+                <h2 className="text-2xl md:text-4xl">
                   {merchant?.name} Gift Card{" "}
                   <span className={styles.rewardsBadge}>
                     {merchant?.info?.savingsPercentage}% Rewards
                   </span>
                 </h2>
-                <p className={styles.description}>
+                <p className="text-sm md:text-base mt-2">
                   {`Best Buy gift cards make it easy to enjoy all the latest technology.
                 Whether you're looking for smart home devices, drone, or 4K Ultra HD
                 TVs, Associates will help you make the right choice. Plus, Geek
@@ -146,11 +148,11 @@ export default function MerchantPage() {
                  Use Best Buy gift cards to get the tech you want and the
                   services you need in stores and at BestBuy.com®`}
                 </p>
-                <div className={styles.availability}>
-                  <span>✓ Online</span>
-                  <span>✓ In Store</span>
+                <div className={`${styles.availability} mt-4`}>
+                  {merchant?.type === "online" && <span>✓ Online</span>}
+                  {merchant?.type === "physical" && <span>✓ In Store</span>}
                 </div>
-                <div className={styles.purchaseSection}>
+                <div className={`${styles.purchaseSection} mt-4`}>
                   <label htmlFor="amount" className="font-bold">
                     Purchase Amount
                   </label>
@@ -158,7 +160,7 @@ export default function MerchantPage() {
                   <Dialog open={open} onOpenChange={setOpen}>
                     <DialogTrigger asChild>
                       <Button
-                        className="mt-2"
+                        className="mt-2 w-full md:w-auto"
                         disabled={
                           (purchaseAmount as number) <= 0 ||
                           (purchaseAmount as number) <
@@ -184,14 +186,14 @@ export default function MerchantPage() {
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
                         {checkoutStatus === "default" && (
-                          <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="email" className="text-right">
+                          <div className="grid grid-cols-1 gap-4">
+                            <Label htmlFor="email" className="text-left">
                               Email
                             </Label>
                             <Input
                               id="email"
                               placeholder="michaelscott@gmail.com"
-                              className="col-span-3"
+                              className="w-full"
                               onChange={handleInputChange}
                             />
                           </div>
@@ -238,7 +240,7 @@ export default function MerchantPage() {
                         <Button
                           type="submit"
                           onClick={handleSubmit}
-                          className="w-[120px]"
+                          className="w-full md:w-[120px]"
                         >
                           {" "}
                           {!isLoading ? (
@@ -278,7 +280,7 @@ export default function MerchantPage() {
           setShowErrorToast={setShowErrorToast}
         />
       )}
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

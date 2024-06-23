@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 
 export default function AmountInput(props: any) {
   return (
-    <div className="flex items-center w-full max-w-sm">
+    <div className="flex items-center w-full md:w-auto">
       <div className="absolute pl-4 text-gray-500 dark:text-gray-400">
         <DollarSignIcon className="h-5 w-5" />
       </div>

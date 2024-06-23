@@ -17,7 +17,7 @@ export default function Main(props: any) {
       } else if (screenWidth >= 640) {
         setNumCols(4); // 4 columns for medium screens
       } else {
-        setNumCols(2); // 2 column for small screens
+        setNumCols(2); // 2 columns for small screens
       }
     }
 
@@ -32,9 +32,9 @@ export default function Main(props: any) {
   }, []);
 
   return (
-    <div className="flex-col md:flex z-10 w-full ">
+    <div className="flex flex-col min-h-screen z-10 w-full">
       <NavBar merchants={props.merchants} />
-      <main className="px-8 mt-24">
+      <main className="flex-1 px-8 mt-24">
         <h1 className="text-4xl font-bold mb-4 mt-6">
           Shop at thousands of locations with Dash
         </h1>
@@ -43,7 +43,7 @@ export default function Main(props: any) {
           Amazon, Uber, Walmart and Starbucks
         </p>
 
-        <ScrollArea>
+        <ScrollArea className="flex-1">
           {!props.isLoading ? (
             <div
               className={`grid ${
@@ -70,7 +70,7 @@ export default function Main(props: any) {
               ))}
             </div>
           ) : (
-            <div className="flex items-center justify-center">
+            <div className="flex items-top justify-center h-full">
               <Icons.spinner className="h-10 w-10 animate-spin text-primary" />
             </div>
           )}
