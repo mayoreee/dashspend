@@ -1,11 +1,42 @@
 "use client";
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import Footer from "@/components/footer";
 import { NavBar } from "@/components/nav-bar";
 import useMerchants from "@/hooks/use-merchants";
-import { MapContainer, Marker, Popup, TileLayer, ZoomControl } from "react-leaflet";
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  {
+    ssr: false, // Disable SSR for this component
+  }
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  {
+    ssr: false, // Disable SSR for this component
+  }
+);
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false, // Disable SSR for this component
+});
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  {
+    ssr: false, // Disable SSR for this component
+  }
+);
+const ZoomControl = dynamic(
+  () => import("react-leaflet").then((mod) => mod.ZoomControl),
+  {
+    ssr: false, // Disable SSR for this component
+  }
+);
+
+const Locations = dynamic(() => import("./Locations"), {
+  ssr: false,
+});
+
 import "leaflet/dist/leaflet.css";
-import Locations from "./Locations";
 
 const defaultLocation: [number, number] = [37.7749, -122.4194]; // San Francisco coordinates
 
@@ -55,11 +86,11 @@ export default function Map() {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <ZoomControl position="bottomright"/>
+            <ZoomControl position="bottomright" />
             <Marker position={userLocation}>
               <Popup>You are here.</Popup>
             </Marker>
-            <Locations/>
+            <Locations />
           </MapContainer>
         </div>
       )}

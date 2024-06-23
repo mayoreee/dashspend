@@ -27,7 +27,9 @@ export default function InvoicePage() {
   const paymentUrl = giftCardInfo?.paymentUrls["DASH.DASH"];
 
   const handlePayButtonClick = () => {
-    window.open(paymentUrl, "_blank");
+    if (typeof window !== "undefined") {
+      window.open(paymentUrl, "_blank");
+    }
   };
 
   return (

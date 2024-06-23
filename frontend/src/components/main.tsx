@@ -25,8 +25,10 @@ export default function Main(props: any) {
     handleResize();
 
     // Event listener for window resize
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []);
 
   return (
@@ -44,11 +46,13 @@ export default function Main(props: any) {
         <ScrollArea>
           {!props.isLoading ? (
             <div
-            className={`grid ${numCols === 2
-              ? "grid-cols-2"
-              : numCols === 4
-              ? "grid-cols-4"
-              : "grid-cols-6"} gap-8 justify-center`}
+              className={`grid ${
+                numCols === 2
+                  ? "grid-cols-2"
+                  : numCols === 4
+                  ? "grid-cols-4"
+                  : "grid-cols-6"
+              } gap-8 justify-center`}
             >
               {props.merchants.map((merchant: any) => (
                 <Merchant
@@ -57,12 +61,8 @@ export default function Main(props: any) {
                   name={merchant.name}
                   brandLogo={merchant?.brandLogo ?? "/merchant.png"}
                   discount={merchant.info?.savingsPercentage ?? 0}
-                  minGiftCardValueUSD={
-                    merchant.info?.minimumCardPurchase ?? 0
-                  }
-                  maxGiftCardValueUSD={
-                    merchant.info?.maximumCardPurchase ?? 0
-                  }
+                  minGiftCardValueUSD={merchant.info?.minimumCardPurchase ?? 0}
+                  maxGiftCardValueUSD={merchant.info?.maximumCardPurchase ?? 0}
                   className="w-full h-auto" // Adjust width and height as needed
                   width={286}
                   height={188}

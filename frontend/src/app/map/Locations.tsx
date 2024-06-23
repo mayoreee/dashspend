@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import L from "leaflet";
 import { Marker, useMap } from "react-leaflet";
 import useCluster from "@/hooks/use-cluster";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const markerIcon = L.icon({
