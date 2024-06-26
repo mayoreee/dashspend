@@ -1,5 +1,6 @@
 const { Pool } = require("pg");
 const fs = require("fs");
+const { log } = require("console");
 
 const pool = new Pool({
   user: "avnadmin",
@@ -47,9 +48,7 @@ function insertRows(rows, headers) {
     const insertQuery = `
     INSERT INTO marker_cluster(location, merchant_id) 
     VALUES (
-      ST_SetSRID(ST_GeomFromText('Point(${parseFloat(longitude)} ${parseFloat(
-      latitude
-    )})'), 4326),
+      ST_GeomFromText('Point(${latitude} ${longitude})'),
       $1
     );
   `;
