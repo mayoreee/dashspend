@@ -21,3 +21,12 @@ export function searchMerchants(merchants: any[], searchString: string): any[] {
   // Return the first 3 matching merchants
   return matchingMerchants.slice(0,3);
 }
+
+// Debounce utility function with type annotations
+export function debounce<T extends (...args: any[]) => void>(func: T, wait: number): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout;
+  return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}

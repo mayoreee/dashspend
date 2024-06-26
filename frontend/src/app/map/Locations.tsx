@@ -3,6 +3,8 @@ import L from "leaflet";
 import { Marker, useMap } from "react-leaflet";
 import useCluster from "@/hooks/use-cluster";
 import { useRouter } from "next/navigation";
+import { debounce } from "@/lib/utils";
+
 
 const markerIcon = L.icon({
   iconSize: [25, 41],
@@ -31,20 +33,21 @@ export default function Locations() {
   const router = useRouter();
 
   // get map bounds
-  function updateMap() {
-    console.log("updating");
+  const updateMap = useCallback(() => {
     const b = map.getBounds();
     setBounds(b);
     setZoom(map.getZoom());
-  }
+  }, [map]);
+
+  const debouncedUpdateMap = useCallback(debounce(updateMap, 500), [updateMap]);
 
   const onMove = useCallback(() => {
-    updateMap();
-  }, [map]);
+    debouncedUpdateMap();
+  }, [debouncedUpdateMap]);
 
-  React.useEffect(() => {
-    updateMap();
-  }, [map]);
+  useEffect(() => {
+    updateMap(); // Initial update
+  }, [map, updateMap]);
 
   useEffect(() => {
     map.on("move", onMove);
