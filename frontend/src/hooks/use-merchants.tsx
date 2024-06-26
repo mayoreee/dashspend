@@ -73,7 +73,6 @@ const useMerchants: any = () => {
               })
               .then((merchantDetail) => ({
                 ...merchant,
-                brandLogo: null,
                 info: {
                   minimumCardPurchase: parseFloat(merchantDetail.denominations[0]),
                   maximumCardPurchase: parseFloat(merchantDetail.denominations[1]),

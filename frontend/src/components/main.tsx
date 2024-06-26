@@ -63,7 +63,7 @@ export default function Main(props: any) {
                   key={merchant.merchantId}
                   id={merchant.merchantId}
                   name={merchant.name}
-                  brandLogo={merchant?.brandLogo ?? "/merchant.png"}
+                  brandLogo={merchant?.logoUrl ?? "/merchant.png"}
                   discount={merchant.info?.savingsPercentage ?? 0}
                   minGiftCardValueUSD={merchant.info?.minimumCardPurchase ?? 0}
                   maxGiftCardValueUSD={merchant.info?.maximumCardPurchase ?? 0}
