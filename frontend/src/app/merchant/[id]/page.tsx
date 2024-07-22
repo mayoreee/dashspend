@@ -36,7 +36,7 @@ export default function MerchantPage() {
   const router = useRouter();
 
   const merchant = merchants.find(
-    (merchant: any) => merchant.merchantId === id
+    (merchant: any) => merchant.id === id
   );
 
   const [checkoutStatus, setCheckoutStatus] = useState<
@@ -134,7 +134,7 @@ export default function MerchantPage() {
                   {merchant?.name} Gift Card
                 </h2>
                 <span className={`${styles.rewardsBadge}`}>
-                  {merchant?.info?.savingsPercentage}% Rewards
+                  {merchant?.savingsPercentage / 100}% Rewards
                 </span>
                 <p className="text-sm md:text-base mt-2">
                   {`Best Buy gift cards make it easy to enjoy all the latest technology.
@@ -161,9 +161,9 @@ export default function MerchantPage() {
                         disabled={
                           (purchaseAmount as number) <= 0 ||
                           (purchaseAmount as number) <
-                            merchant.info.minimumCardPurchase ||
+                            merchant.denominations[0] ||
                           (purchaseAmount as number) >
-                            merchant.info.maximumCardPurchase
+                            merchant.denominations[1]
                         }
                       >
                         Buy Now

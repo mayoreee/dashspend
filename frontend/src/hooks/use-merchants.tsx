@@ -9,10 +9,14 @@ const useMerchants: any = () => {
   const [merchants, setMerchants] = useState<any[]>([]);
 
   // State to track loading status
-  const [isLoading, setIsloading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // State to track error status
   const [error, setError] = useState<any>(null);
+
+  // Stat to track api pagination
+  const [page, setPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
   useEffect(() => {
     const cachedMerchants = localStorage.getItem("merchants");
@@ -21,91 +25,79 @@ const useMerchants: any = () => {
       setMerchants(JSON.parse(cachedMerchants));
       return;
     }
+  }, []);
 
-    setIsloading(true);
+  useEffect(() => {
+    const fetchMerchants = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${API_URL}/merchants?page=${page}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Api-Key": API_KEY,
+            "X-Api-Secret": API_SECRET,
+          },
+        });
 
-    // Fetch data from the API endpoint
-    fetch(`${API_URL}/merchants`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Api-Key": API_KEY,
-        "X-Api-Secret": API_SECRET,
-      },
-    })
-      .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
-        return response.json();
-      })
-      .then((responseData) => {
+
+        const responseData = await response.json();
         const merchantsData = responseData?.result || [];
-        // Ensure uniqueness by merchantId
-        const uniqueMerchants = Array.from(
+
+         // Ensure uniqueness by merchantId
+         const uniqueMerchants = Array.from(
           new Map(
             merchantsData.map((merchant: any) => [
-              merchant.merchantId,
+              merchant.id,
               merchant,
             ])
           ).values()
         );
+   
 
-        // Fetch additional details for each merchant
-        return Promise.all(
-          uniqueMerchants.map((merchant: any) =>
-            fetch(`${API_URL}/merchants/${merchant.merchantId}`, {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                "X-Api-Key": API_KEY,
-                "X-Api-Secret": API_SECRET,
-              },
-            })
-              .then((detailsResponse) => {
-                if (!detailsResponse.ok) {
-                  throw new Error(
-                    `Failed to fetch details for merchant id: ${merchant.merchantId}`
-                  );
-                }
-               
-                return detailsResponse.json();
-              })
-              .then((merchantDetail) => ({
-                ...merchant,
-                info: {
-                  minimumCardPurchase: parseFloat(merchantDetail.denominations[0]),
-                  maximumCardPurchase: parseFloat(merchantDetail.denominations[1]),
-                  savingsPercentage: (parseInt(merchantDetail.savingsPercentage) / 100) ?? 0,
-                },
-              }))
-              .catch((error) => {
-                console.error(
-                  `Error fetching details for merchant id: ${merchant.merchantId}`,
-                  error
-                );
-                return merchant; // Return the original merchant data on error
-              })
-          )
+        setMerchants((prevMerchants) => [
+          ...prevMerchants,
+          ...uniqueMerchants,
+        ]);
+        localStorage.setItem(
+          "merchants",
+          JSON.stringify([...merchants, ...merchantsData])
         );
-      })
-      .then((merchantsWithDetails) => {
-        // Store the data in state and cache
-        setMerchants(merchantsWithDetails);
-        localStorage.setItem("merchants", JSON.stringify(merchantsWithDetails));
-      })
-      .catch((error) => {
-        // Handle errors
+
+        setHasMore(page < responseData.pagination.pages);
+      } catch (error) {
         setError(error);
         console.error("Error fetching data:", error);
-      })
-      .finally(() => {
-        setIsloading(false);
-      });
-  }, []);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  // Return the data, loading status, and error
-  return { merchants, isLoading, error };
+    if (hasMore) {
+      fetchMerchants();
+    }
+  }, [page]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight
+      )
+        return;
+      if (hasMore && !isLoading) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasMore, isLoading]);
+
+  return { merchants, isLoading, error, page };
 };
 
 export default useMerchants;

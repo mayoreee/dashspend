@@ -40,13 +40,13 @@ export function Merchant({
             Save {discount}%
           </div>
         )}
-        <div className="aspect-w-3 aspect-h-2 overflow-hidden p-0">
+        <div className="relative overflow-hidden" style={{width, height}}>
           <Image
             src={brandLogo}
             alt={name}
-            width={width}
-            height={height}
-            className="object-cover transition-transform group-hover:scale-105"
+            layout="fill"
+            objectFit="cover"
+            className="transition-transform group-hover:scale-105"
           />
         </div>
         <div className="p-3 space-y-1">
