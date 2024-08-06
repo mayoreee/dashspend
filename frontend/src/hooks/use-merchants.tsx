@@ -21,13 +21,13 @@ const useMerchants: any = () => {
 
   useEffect(() => {
 
-    const cachedMerchants = localStorage.getItem("merchants");
-    if (cachedMerchants) {
-      setMerchants(JSON.parse(cachedMerchants));
-      console.log('set the merchants')
-      return;
-    }
-    
+    // const cachedMerchants = localStorage.getItem("merchants");
+    // if (cachedMerchants) {
+    //   setMerchants(JSON.parse(cachedMerchants));
+    //   console.log('set the merchants')
+    //   return;
+    // }
+
     const fetchMerchants = async () => {
       setIsLoading(true);
       try {
@@ -63,10 +63,10 @@ const useMerchants: any = () => {
         setMerchants((_) => [
           ...uniqueMerchants,
         ]);
-        localStorage.setItem(
-          "merchants",
-          JSON.stringify([...uniqueMerchants])
-        );
+        // localStorage.setItem(
+        //   "merchants",
+        //   JSON.stringify([...uniqueMerchants])
+        // );
 
         setHasMore(page < responseData.pagination.pages);
       } catch (error) {
