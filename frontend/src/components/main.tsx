@@ -39,10 +39,10 @@ export default function Main(props: any) {
         <div className="md:hidden mx-0 md:mx-0 w-full">
           <Search merchants={props.merchants} />
         </div>
-        <h1 className="text-4xl font-bold mb-4 mt-6">
+        <h1 className="text-4xl font-bold mb-4 mt-12">
           Shop at thousands of locations with Dash
         </h1>
-        <p className="text-muted-foreground mb-16">
+        <p className="text-muted-foreground mb-24">
           Instantly purchase gift cards from all your favourite merchants like
           Amazon, Uber, Walmart and Starbucks
         </p>
@@ -67,7 +67,7 @@ export default function Main(props: any) {
                   key={merchant.id}
                   id={merchant.id}
                   name={merchant.name}
-                  brandLogo={merchant?.logoUrl ?? "https://placehold.co/60x40/png?text=."}
+                  brandLogo={merchant?.logoUrl ?? "https://placehold.co/200x200/png?text=."}
                   discount={merchant.savingsPercentage / 100 ?? 0}
                   minGiftCardValueUSD={merchant.denominations[0] ?? 0}
                   maxGiftCardValueUSD={merchant.denominations[1] ?? 0}

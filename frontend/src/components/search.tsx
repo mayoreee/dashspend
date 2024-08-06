@@ -32,7 +32,7 @@ export function Search(props: any) {
         />
       </div>
       {value.length > 1 && suggestedMerchants.length > 0 && (
-        <div className="absolute left-0 z-10 mt-2 w-full rounded-md bg-white shadow-lg dark:bg-gray-800 md:w-[100px] lg:w-[525px]">
+        <div className="absolute left-0 z-10 mt-2 w-full rounded-md bg-white shadow-lg dark:bg-gray-800 md:w-[100px] lg:w-[525px] z-10">
           <ul className="py-1">
             {suggestedMerchants.map((merchant: any) =>
               SuggestionItem(merchant)
@@ -70,7 +70,7 @@ function SuggestionItem(merchant: any) {
       <ul className="flex items-center space-x-4 px-4 py-2">
         <div className="flex-shrink-0">
           <Image
-            src={merchant.logoUrl ?? "/merchant.png"}
+            src={merchant.logoUrl ?? "https://placehold.co/64x40/png?text=."}
             alt={`${merchant.name} logo`}
             width={64}
             height={40}
