@@ -125,7 +125,7 @@ export default function MerchantPage() {
           <div className={`${styles.container} px-4 md:px-0`}>
             <div className={styles.content}>
               <img
-                src={`${merchant?.cardImageUrl ?? "/merchant_banner.png"}`}
+                src={`${merchant?.cardImageUrl ?? `https://placehold.co/600x400/png?text=.`}`}
                 alt="banner"
                 className={`${styles.merchantImage} w-full object-cover`}
               />

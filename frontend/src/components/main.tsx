@@ -14,9 +14,9 @@ export default function Main(props: any) {
     function handleResize() {
       const screenWidth = window.innerWidth;
       if (screenWidth >= 1024) {
-        setNumCols(4); // 4 columns for large screens
+        setNumCols(6); // 6 columns for large screens
       } else if (screenWidth >= 640) {
-        setNumCols(3); // 3 columns for medium screens
+        setNumCols(4); // 4 columns for medium screens
       } else {
         setNumCols(2); // 2 columns for small screens
       }
@@ -57,9 +57,9 @@ export default function Main(props: any) {
               className={`grid ${
                 numCols === 2
                   ? "grid-cols-2"
-                  : numCols === 3
-                  ? "grid-cols-3"
-                  : "grid-cols-4"
+                  : numCols === 4
+                  ? "grid-cols-4"
+                  : "grid-cols-6"
               } gap-8 justify-center mb-2 `}
             >
               {props.merchants.map((merchant: any) => (
@@ -67,13 +67,12 @@ export default function Main(props: any) {
                   key={merchant.id}
                   id={merchant.id}
                   name={merchant.name}
-                  brandLogo={merchant?.logoUrl ?? "/merchant.png"}
+                  brandLogo={merchant?.logoUrl ?? "https://placehold.co/60x40/png?text=."}
                   discount={merchant.savingsPercentage / 100 ?? 0}
                   minGiftCardValueUSD={merchant.denominations[0] ?? 0}
                   maxGiftCardValueUSD={merchant.denominations[1] ?? 0}
-                  className="w-full h-auto" // Adjust width and height as needed
-                  width={286}
-                  height={188}
+                  width={200}
+                  height={200}
                 />
               ))}
             </div>

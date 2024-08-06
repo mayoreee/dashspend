@@ -20,8 +20,8 @@ export function Merchant({
   discount,
   minGiftCardValueUSD,
   maxGiftCardValueUSD,
-  width = 286,
-  height = 188,
+  width,
+  height,
   className,
   ...props
 }: MerchantProps) {
@@ -36,11 +36,11 @@ export function Merchant({
         {...props}
       >
         {discount > 0 && (
-          <div className="absolute top-2 left-2 bg-black bg-opacity-50 text-white text-xs py-0.5 px-1 rounded">
+          <div className="absolute top-2 left-2 bg-black bg-opacity-50 text-white text-xs py-0.5 px-1 rounded z-10">
             Save {discount}%
           </div>
         )}
-        <div className="relative overflow-hidden" style={{width, height}}>
+        <div className="relative" style={{width: width, height: height}}>
           <Image
             src={brandLogo}
             alt={name}

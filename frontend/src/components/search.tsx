@@ -70,7 +70,7 @@ function SuggestionItem(merchant: any) {
       <ul className="flex items-center space-x-4 px-4 py-2">
         <div className="flex-shrink-0">
           <Image
-            src={merchant.brandLogo ?? "/merchant.png"}
+            src={merchant.logoUrl ?? "/merchant.png"}
             alt={`${merchant.name} logo`}
             width={64}
             height={40}

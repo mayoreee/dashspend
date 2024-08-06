@@ -18,16 +18,16 @@ const useMerchants: any = () => {
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
-  useEffect(() => {
-    const cachedMerchants = localStorage.getItem("merchants");
 
+  useEffect(() => {
+
+    const cachedMerchants = localStorage.getItem("merchants");
     if (cachedMerchants) {
       setMerchants(JSON.parse(cachedMerchants));
+      console.log('set the merchants')
       return;
     }
-  }, []);
-
-  useEffect(() => {
+    
     const fetchMerchants = async () => {
       setIsLoading(true);
       try {
@@ -47,10 +47,12 @@ const useMerchants: any = () => {
         const responseData = await response.json();
         const merchantsData = responseData?.result || [];
 
+        const mergedMerchantList = [...merchants, ...merchantsData]
+
          // Ensure uniqueness by merchantId
          const uniqueMerchants = Array.from(
           new Map(
-            merchantsData.map((merchant: any) => [
+            mergedMerchantList.map((merchant: any) => [
               merchant.id,
               merchant,
             ])
@@ -58,13 +60,12 @@ const useMerchants: any = () => {
         );
    
 
-        setMerchants((prevMerchants) => [
-          ...prevMerchants,
+        setMerchants((_) => [
           ...uniqueMerchants,
         ]);
         localStorage.setItem(
           "merchants",
-          JSON.stringify([...merchants, ...merchantsData])
+          JSON.stringify([...uniqueMerchants])
         );
 
         setHasMore(page < responseData.pagination.pages);
