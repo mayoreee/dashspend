@@ -6,15 +6,6 @@ import { useRouter } from "next/navigation";
 import { debounce } from "@/lib/utils";
 
 
-const markerIcon = L.icon({
-  iconSize: [25, 41],
-  iconAnchor: [10, 41],
-  popupAnchor: [2, -40],
-  iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png`,
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-});
-
-const icons: any = {};
 const fetchIcon = (feature: any) => {
   const count = feature.properties.point_count;
   const size = count < 100 ? "small" : count < 1000 ? "medium" : "large";
@@ -92,7 +83,14 @@ export default function Locations() {
             <Marker
               key={`merchant-${cluster.properties.merchant_id}`}
               position={[latitude, longitude]}
-              icon={markerIcon}
+              icon={L.icon({
+                iconSize: [50, 50],
+                iconAnchor: [10, 41],
+                popupAnchor: [2, -40],
+                className: 'circular-mask',
+                iconUrl: cluster.properties.map_pin_url ?? "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png",
+                // shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+              })}
               eventHandlers={{
                 click: (e) => {
                   if (!!cluster.properties.merchant_id) {
