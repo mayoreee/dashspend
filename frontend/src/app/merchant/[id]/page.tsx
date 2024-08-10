@@ -142,14 +142,15 @@ export default function MerchantPage() {
                   <span className={`${styles.rewardsBadge}`}>
                     {merchant?.savingsPercentage / 100}% Rewards
                   </span>
-                  <p className="text-sm md:text-base mt-2">
-                    {`Best Buy gift cards make it easy to enjoy all the latest technology.
+                  <span className="mb-8"/>
+                  <p className="text-sm md:text-base mt-8">
+                    {/* {`Best Buy gift cards make it easy to enjoy all the latest technology.
                 Whether you're looking for smart home devices, drone, or 4K Ultra HD
                 TVs, Associates will help you make the right choice. Plus, Geek
                 Squad® can help keep it all running right with installation, setup,
                 support and repair.
                  Use Best Buy gift cards to get the tech you want and the
-                  services you need in stores and at BestBuy.com®`}
+                  services you need in stores and at BestBuy.com®`} */}
                   </p>
                   <div className={`${styles.availability} mt-4`}>
                     {merchant?.type === "online" && <span>✓ Online</span>}
