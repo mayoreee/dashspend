@@ -14,9 +14,9 @@ export default function Main(props: any) {
     function handleResize() {
       const screenWidth = window.innerWidth;
       if (screenWidth >= 1024) {
-        setNumCols(6); // 6 columns for large screens
+        setNumCols(5); // 5 columns for large screens
       } else if (screenWidth >= 640) {
-        setNumCols(4); // 4 columns for medium screens
+        setNumCols(3); // 3 columns for medium screens
       } else {
         setNumCols(2); // 2 columns for small screens
       }
@@ -57,9 +57,9 @@ export default function Main(props: any) {
               className={`grid ${
                 numCols === 2
                   ? "grid-cols-2"
-                  : numCols === 4
-                  ? "grid-cols-4"
-                  : "grid-cols-6"
+                  : numCols === 3
+                  ? "grid-cols-3"
+                  : "grid-cols-5"
               } gap-8 justify-center mb-2 `}
             >
               {props.merchants.map((merchant: any) => (
@@ -71,7 +71,6 @@ export default function Main(props: any) {
                   discount={merchant.savingsPercentage / 100 ?? 0}
                   minGiftCardValueUSD={merchant.denominations[0] ?? 0}
                   maxGiftCardValueUSD={merchant.denominations[1] ?? 0}
-                  width={200}
                   height={200}
                 />
               ))}
