@@ -20,7 +20,8 @@ class Locations {
             id, 
             ST_Y(location) AS y, 
             ST_X(location) AS x,
-            merchant_id
+            merchant_id,
+            map_pin_url
           FROM 
             marker_cluster 
           WHERE 

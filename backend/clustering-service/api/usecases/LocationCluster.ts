@@ -48,6 +48,7 @@ interface PointFeatureProperties {
         },
         properties: {
           merchant_id: point.merchant_id,
+          map_pin_url: point.map_pin_url,
         },
       }));
   
