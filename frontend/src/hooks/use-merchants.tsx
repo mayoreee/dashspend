@@ -18,7 +18,6 @@ const useMerchants: any = () => {
     const cachedMerchants = localStorage.getItem("merchants");
     if (cachedMerchants) {
       setMerchants(JSON.parse(cachedMerchants));
-      console.log("set the merchants");
       return;
     }
 

@@ -114,7 +114,7 @@ export default function MerchantPage() {
       router.push(`/invoice/${giftCardInfo.id}`, {});
     }
   }, [giftCardInfo?.id, router]);
-
+  
   return (
     <div>
       <NavBar merchants={merchants} />
@@ -168,9 +168,9 @@ export default function MerchantPage() {
                           disabled={
                             (purchaseAmount as number) <= 0 ||
                             (purchaseAmount as number) <
-                              merchant.denominations[0] ||
+                              (parseInt(merchant?.denominations[0])) ||
                             (purchaseAmount as number) >
-                              merchant.denominations[1]
+                              (parseInt(merchant?.denominations[1]))
                           }
                         >
                           Buy Now
