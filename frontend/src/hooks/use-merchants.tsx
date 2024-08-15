@@ -9,66 +9,62 @@ const useMerchants: any = () => {
   const [merchants, setMerchants] = useState<any[]>([]);
 
   // State to track loading status
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingMerchants, setIsLoading] = useState<boolean>(false);
 
   // State to track error status
   const [error, setError] = useState<any>(null);
 
-  // Stat to track api pagination
-  const [page, setPage] = useState<number>(1);
-  const [hasMore, setHasMore] = useState<boolean>(true);
-
-
   useEffect(() => {
+    const cachedMerchants = localStorage.getItem("merchants");
+    if (cachedMerchants) {
+      setMerchants(JSON.parse(cachedMerchants));
+      console.log("set the merchants");
+      return;
+    }
 
-    // const cachedMerchants = localStorage.getItem("merchants");
-    // if (cachedMerchants) {
-    //   setMerchants(JSON.parse(cachedMerchants));
-    //   console.log('set the merchants')
-    //   return;
-    // }
-
-    const fetchMerchants = async () => {
+    const fetchAllMerchants = async () => {
       setIsLoading(true);
+      let page = 1;
+      let hasMore = true;
+      let allMerchants: any[] = [];
+
       try {
-        const response = await fetch(`${API_URL}/merchants?page=${page}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Api-Key": API_KEY,
-            "X-Api-Secret": API_SECRET,
-          },
-        });
+        while (hasMore) {
+          const response = await fetch(`${API_URL}/merchants?page=${page}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Api-Key": API_KEY,
+              "X-Api-Secret": API_SECRET,
+            },
+          });
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
+          if (!response.ok) {
+            throw new Error("Failed to fetch data");
+          }
+
+          const responseData = await response.json();
+          const merchantsData = responseData?.result || [];
+
+          allMerchants = [...allMerchants, ...merchantsData];
+
+          // Ensure uniqueness by merchantId
+          const uniqueMerchants = Array.from(
+            new Map(
+              allMerchants.map((merchant: any) => [merchant.id, merchant])
+            ).values()
+          );
+
+          setMerchants(uniqueMerchants);
+
+          localStorage.setItem(
+            "merchants",
+            JSON.stringify([...uniqueMerchants])
+          );
+
+          hasMore = page < responseData.pagination.pages;
+          page++;
         }
-
-        const responseData = await response.json();
-        const merchantsData = responseData?.result || [];
-
-        const mergedMerchantList = [...merchants, ...merchantsData]
-
-         // Ensure uniqueness by merchantId
-         const uniqueMerchants = Array.from(
-          new Map(
-            mergedMerchantList.map((merchant: any) => [
-              merchant.id,
-              merchant,
-            ])
-          ).values()
-        );
-   
-
-        setMerchants((_) => [
-          ...uniqueMerchants,
-        ]);
-        // localStorage.setItem(
-        //   "merchants",
-        //   JSON.stringify([...uniqueMerchants])
-        // );
-
-        setHasMore(page < responseData.pagination.pages);
       } catch (error) {
         setError(error);
         console.error("Error fetching data:", error);
@@ -77,28 +73,10 @@ const useMerchants: any = () => {
       }
     };
 
-    if (hasMore) {
-      fetchMerchants();
-    }
-  }, [page]);
+    fetchAllMerchants();
+  }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight
-      )
-        return;
-      if (hasMore && !isLoading) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasMore, isLoading]);
-
-  return { merchants, isLoading, error, page };
+  return { merchants, isLoadingMerchants, error };
 };
 
 export default useMerchants;

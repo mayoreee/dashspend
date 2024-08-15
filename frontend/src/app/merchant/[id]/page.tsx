@@ -28,14 +28,14 @@ import {
 } from "@/components/ui/input-otp";
 import Toast from "@/components/Toast";
 import useGiftCard from "@/hooks/use-gift-card";
-import useMerchant from "@/hooks/use-merchant";
 import useMerchants from "@/hooks/use-merchants";
 
 export default function MerchantPage() {
   const { id } = useParams();
-  const { merchant, isLoadingMerchant } = useMerchant(id);
-  const { merchants } = useMerchants();
+  const { merchants, isLoadingMerchants } = useMerchants();
   const router = useRouter();
+
+  const merchant = merchants.find((merchant: any) => merchant.id === id);
 
   const [checkoutStatus, setCheckoutStatus] = useState<
     "default" | "valid_email" | "valid_token"
@@ -121,7 +121,7 @@ export default function MerchantPage() {
       <div className={styles.body}>
         <main className="flex flex-col pt-24 min-h-screen mb-2">
           <div className={`${styles.container} px-4 md:px-0`}>
-            {isLoadingMerchant ? (
+            {isLoadingMerchants ? (
               <div className="flex items-top justify-center h-full">
                 <Icons.spinner className="h-10 w-10 animate-spin text-primary" />
               </div>
@@ -130,7 +130,7 @@ export default function MerchantPage() {
                 <img
                   src={`${
                     merchant?.cardImageUrl ??
-                    `https://placehold.co/600x400/png?text=.`
+                    `https://placehold.co/1200x700/png?text=.`
                   }`}
                   alt="banner"
                   className={`${styles.merchantImage} w-full object-cover`}
@@ -142,7 +142,7 @@ export default function MerchantPage() {
                   <span className={`${styles.rewardsBadge}`}>
                     {merchant?.savingsPercentage / 100}% Rewards
                   </span>
-                  <span className="mb-8"/>
+                  <span className="mb-8" />
                   <p className="text-sm md:text-base mt-8">
                     {/* {`Best Buy gift cards make it easy to enjoy all the latest technology.
                 Whether you're looking for smart home devices, drone, or 4K Ultra HD
